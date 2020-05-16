@@ -1,0 +1,26 @@
+{
+  "name": "010-peli_vs_peli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CarlaGirardini/Acamica-DWFS-010_Peli_VS_Peli.git"
+  },
+  "author": "Carla Girardini",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CarlaGirardini/Acamica-DWFS-010_Peli_VS_Peli/issues"
+  },
+  "homepage": "https://github.com/CarlaGirardini/Acamica-DWFS-010_Peli_VS_Peli#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.3"
+  }
+}
