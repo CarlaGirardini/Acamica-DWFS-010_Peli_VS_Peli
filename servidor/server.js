@@ -14,6 +14,9 @@ app.use(bodyParser.urlencoded({
 
 app.use(bodyParser.json());
 
-app.get('/competencias', controller.buscarCompetencias)
+app.post('/competencias/:idCompetencia/voto', controller.votarPelicula);
+app.get('/competencias/:id/peliculas', controller.buscarOpciones);
+app.get('/competencias/:id/resultados', controller.buscarMejoresTres)
+app.get('/competencias', controller.buscarCompetencias);
 
 app.listen(puerto, () => {console.log('Escuchando al puerto', puerto);});
