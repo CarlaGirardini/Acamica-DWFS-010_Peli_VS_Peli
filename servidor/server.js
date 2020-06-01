@@ -1,7 +1,10 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var cors = require('cors');
-var controller = require('./controladores/controller');
+var controllerGet = require('./controladores/controller-get');
+var controllerPost = require('./controladores/controller-post');
+var controllerPut = require('./controladores/controller-put');
+var controllerDelete = require('./controladores/controller-delete');
 
 var app = express();
 var puerto = '8080';
@@ -14,9 +17,19 @@ app.use(bodyParser.urlencoded({
 
 app.use(bodyParser.json());
 
-app.post('/competencias/:idCompetencia/voto', controller.votarPelicula);
-app.get('/competencias/:id/peliculas', controller.buscarOpciones);
-app.get('/competencias/:id/resultados', controller.buscarMejoresTres)
-app.get('/competencias', controller.buscarCompetencias);
+app.get('/competencias/:id/peliculas', controllerGet.buscarOpciones);
+app.get('/competencias/:id/resultados', controllerGet.buscarMejoresTres)
+app.get('/competencias', controllerGet.buscarCompetencias);
+app.get('/generos', controllerGet.buscarGeneros);
+app.get('/directores', controllerGet.buscarDirectores);
+app.get('/actores', controllerGet.buscarActores);
+
+app.post('/competencias/:idCompetencia/voto', controllerPost.votarPelicula);
+app.post('/competencias', controllerPost.crearCompetencia);
+
+app.put('/competencias/:idCompetencia', controllerPut.cambiarNombreCompetencia);
+
+app.delete('/competencias/:idCompetencia/votos', controllerDelete.reiniciarCompetencia);
+app.delete('/competencias/:idCompetencia', controllerDelete.eliminarCompetencia)
 
 app.listen(puerto, () => {console.log('Escuchando al puerto', puerto);});
