@@ -112,7 +112,6 @@ function buscarMejoresTres(req, res){
 
 function buscarOpciones(req, res){
     // Esta funcion obtiene dos películas aleatorias para una competencia.
-    console.log('req.params', req.params);
     var idCompetencia = parseInt(req.params.id);
     var sql = `select genero_id, director_id, actor_id from competencia where id = ${idCompetencia}`;
     con.query(sql, (err, resp) => {
@@ -123,26 +122,14 @@ function buscarOpciones(req, res){
         var idGenero = resp[0].genero_id;
         var idDirector = resp[0].director_id;
         var idActor = resp[0].actor_id;
-
-        console.log('idGenero', idGenero);
-        console.log('idDirector', idDirector);
-        console.log('idActor', idActor);
         
         var competenciaPorGenero = true;
         var competenciaPorDirector = true;
         var competenciaPorActor = true;
 
-        console.log('competenciaPorGenero', competenciaPorGenero);
-        console.log('competenciaPorDirector', competenciaPorDirector);
-        console.log('competenciaPorActor', competenciaPorActor);
-        
         idGenero === null ? competenciaPorGenero = false : idGenero = parseInt(idGenero);
         idDirector === null ? competenciaPorDirector = false : idDirector = parseInt(idDirector);
         idActor === null ? competenciaPorActor = false : idActor = parseInt(idActor);
-        
-        console.log('competenciaPorGenero DESPUÉS DEL IF', competenciaPorGenero);
-        console.log('competenciaPorDirector DESPUÉS DEL IF', competenciaPorDirector);
-        console.log('competenciaPorActor DESPUÉS DEL IF', competenciaPorActor);
 
         var sql2 = 'SELECT pelicula.id idPelicula, pelicula.poster, pelicula.titulo, pelicula.genero_id';
 
@@ -152,13 +139,13 @@ function buscarOpciones(req, res){
         
         sql2 += ' FROM pelicula';
         
-        if(competenciaPorGenero){sql2 += ' JOIN competencia ON pelicula.genero_id = competencia.genero_id'}
+        if(competenciaPorGenero){sql2 += ' JOIN genero ON pelicula.genero_id = genero.id JOIN competencia ON competencia.genero_id = genero.id'}
         if(competenciaPorDirector){sql2 += ' JOIN director_pelicula ON pelicula.id = director_pelicula.pelicula_id JOIN director ON director.id = director_pelicula.director_id'}
         if(competenciaPorActor){sql2 += ' JOIN actor_pelicula ON pelicula.id = actor_pelicula.pelicula_id JOIN actor ON actor.id = actor_pelicula.actor_id'}
         
         if(competenciaPorGenero || competenciaPorDirector || competenciaPorActor){ sql2 += ' WHERE'}
         
-        if(competenciaPorGenero){sql2 += ` pelicula.genero_id = competencia.genero_id`}
+        if(competenciaPorGenero){sql2 += ` pelicula.genero_id = ${idGenero}`}
         if(competenciaPorDirector){
             if(competenciaPorGenero){sql2 += ' AND'}
             sql2 += ` director.id = ${idDirector}`;
@@ -171,8 +158,6 @@ function buscarOpciones(req, res){
         sql2 += ' ORDER BY (pelicula.id*rand()) limit 0,2;'
         sql2 += ` SELECT nombre nombreCompetencia FROM competencia WHERE id = ${idCompetencia}`
 
-        console.log('sql2', sql2);
-
         con.query(sql2, (err, resp) => {
             if(err){
                 console.log('Hubo un error en la consulta', err.message);
@@ -182,7 +167,6 @@ function buscarOpciones(req, res){
                 console.log('Hubo un error en la consulta. No existen elementos en la base de datos que cumplan los requisitos');
                 return res.status(422).send('Hubo un error en la consulta. No existen elementos en la base de datos que cumplan los requisitos');
             }
-            console.log('resp', resp);
             // La respuesta de la base de datos es un arreglo con dos elementos: El primero es un arreglo con la respuesta de la primer consulta y el segundo es un arreglo con la respuesta de la segunda consulta.
             // Armo el arreglo con las peliculas:
 

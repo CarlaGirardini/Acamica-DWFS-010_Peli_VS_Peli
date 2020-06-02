@@ -5,12 +5,11 @@ function crearCompetencia(req, res){
     var idGenero = parseInt(req.body.genero);
     var idDirector = parseInt(req.body.director);
     var idActor = parseInt(req.body.actor);
+    
     if(idGenero === 0) {idGenero = null}
     if(idDirector === 0) {idDirector = null}
     if(idActor === 0) {idActor = null}
-    console.log('idGenero', idGenero);
-    console.log('idDirector', idDirector);
-    console.log('idActor', idActor);
+
     var sql = 'select nombre from competencia;';
     // Primero valido si el nombre existe
     con.query(sql, (err, resp) => {
