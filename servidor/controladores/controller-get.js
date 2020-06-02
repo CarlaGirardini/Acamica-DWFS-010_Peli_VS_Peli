@@ -4,8 +4,12 @@ function buscarActores(req, res){
     var sql = 'select id, nombre from actor';
     con.query(sql, (err, resp) => {
         if(err){
-            console.log('Hubo un error en la consulta', err.message);
-            return res.status(404).send('Hubo un error en la consulta');
+            console.log('Hubo un error en el servidor', err.message);
+            return res.status(500).send('Hubo un error en el servidor');
+        }
+        if(resp.length === 0){
+            console.log('Hubo un error en la consulta. No existen elementos suficientes en la base de datos que cumplan los requisitos');
+            return res.status(404).send('Hubo un error en la consulta. No existen elementos suficientes en la base de datos que cumplan los requisitos');
         }
         var respuesta = [];
         resp.forEach(actor => {
@@ -24,8 +28,12 @@ function buscarCompetencias(req, res){
     var sql = 'select * from competencia';
     con.query(sql, function(err, resp){
         if(err){
-            console.log('Hubo un error en la consulta', err.message);
-            return res.status(404).send('Hubo un error en la consulta');
+            console.log('Hubo un error en el servidor', err.message);
+            return res.status(500).send('Hubo un error en el servidor');
+        }
+        if(resp.length === 0){
+            console.log('Hubo un error en la consulta. No existen elementos suficientes en la base de datos que cumplan los requisitos');
+            return res.status(404).send('Hubo un error en la consulta. No existen elementos suficientes en la base de datos que cumplan los requisitos');
         }
         var respuesta = [];
         resp.forEach(comp => {
@@ -45,8 +53,12 @@ function buscarDirectores(req, res) {
     var sql = 'select nombre, id from director';
     con.query(sql, (err, resp) => {
         if(err){
-            console.log('Hubo un error en la consulta', err.message);
-            return res.status(404).send('Hubo un error en la consulta');
+            console.log('Hubo un error en el servidor', err.message);
+            return res.status(500).send('Hubo un error en el servidor');
+        }
+        if(resp.length === 0){
+            console.log('Hubo un error en la consulta. No existen elementos suficientes en la base de datos que cumplan los requisitos');
+            return res.status(404).send('Hubo un error en la consulta. No existen elementos suficientes en la base de datos que cumplan los requisitos');
         }
         var respuesta = [];
         resp.forEach(director => {
@@ -64,8 +76,12 @@ function buscarGeneros(req, res){
     var sql = 'select nombre, id from genero'
     con.query(sql, (err, resp) => {
         if(err){
-            console.log('Hubo un error en la consulta', err.message);
-            return res.status(404).send('Hubo un error en la consulta');
+            console.log('Hubo un error en el servidor', err.message);
+            return res.status(500).send('Hubo un error en el servidor');
+        }
+        if(resp.length === 0){
+            console.log('Hubo un error en la consulta. No existen elementos suficientes en la base de datos que cumplan los requisitos');
+            return res.status(404).send('Hubo un error en la consulta. No existen elementos suficientes en la base de datos que cumplan los requisitos');
         }
         var respuesta = [];
         resp.forEach(genero => {
@@ -85,8 +101,12 @@ function buscarMejoresTres(req, res){
 
     con.query(sql, (err, resp) => {
         if(err){
-            console.log('Hubo un error en la consulta', err.message);
-            return res.status(404).send('Hubo un error en la consulta')
+            console.log('Hubo un error en el servidor', err.message);
+            return res.status(500).send('Hubo un error en el servidor')
+        }
+        if(resp.length === 0){
+            console.log('Hubo un error en la consulta. No existen elementos suficientes en la base de datos que cumplan los requisitos');
+            return res.status(404).send('Hubo un error en la consulta. No existen elementos suficientes en la base de datos que cumplan los requisitos');
         }
         
         var resultados = [];
@@ -116,8 +136,12 @@ function buscarOpciones(req, res){
     var sql = `select genero_id, director_id, actor_id from competencia where id = ${idCompetencia}`;
     con.query(sql, (err, resp) => {
         if(err){
-            console.log('Hubo un error en la consulta', err.message);
-            return res.status(404).send('Hubo un error en la consulta');
+            console.log('Hubo un error en el servidor', err.message);
+            return res.status(500).send('Hubo un error en el servidor');
+        }
+        if(resp.length === 0){
+            console.log('Hubo un error en la consulta. No existen elementos suficientes en la base de datos que cumplan los requisitos');
+            return res.status(404).send('Hubo un error en la consulta. No existen elementos suficientes en la base de datos que cumplan los requisitos');
         }
         var idGenero = resp[0].genero_id;
         var idDirector = resp[0].director_id;
@@ -160,12 +184,12 @@ function buscarOpciones(req, res){
 
         con.query(sql2, (err, resp) => {
             if(err){
-                console.log('Hubo un error en la consulta', err.message);
-                return res.status(404).send('Hubo un error en la consulta');
+                console.log('Hubo un error en el servidor', err.message);
+                return res.status(500).send('Hubo un error en el servidor');
             }
-            if(resp[0].length == 0){
-                console.log('Hubo un error en la consulta. No existen elementos en la base de datos que cumplan los requisitos');
-                return res.status(422).send('Hubo un error en la consulta. No existen elementos en la base de datos que cumplan los requisitos');
+            if(resp.length === 0){
+                console.log('Hubo un error en la consulta. No existen elementos suficientes en la base de datos que cumplan los requisitos');
+                return res.status(404).send('Hubo un error en la consulta. No existen elementos suficientes en la base de datos que cumplan los requisitos');
             }
             // La respuesta de la base de datos es un arreglo con dos elementos: El primero es un arreglo con la respuesta de la primer consulta y el segundo es un arreglo con la respuesta de la segunda consulta.
             // Armo el arreglo con las peliculas:
